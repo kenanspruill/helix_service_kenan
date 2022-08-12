@@ -1,0 +1,61 @@
+###create new pycharm project, open terminal
+
+1) cd /Users/kenanspruill/PycharmProjects/helix_service_kenan
+
+2) pip3 install -U cookiecutter
+
+3) cookiecutter -f https://github.com/icanbwell/helix-service-template.git -o ../
+4) >>>directory_name [your_repo_folder]: /Users/kenanspruill/PycharmProjects/helix_service_kenan
+5) >>>package_name [/Users/kenanspruill/PycharmProjects/helix_service_kenan]: helix_service_kenan
+6) >>>project_slug [helix_service_kenan]: helix_service_kenan
+7) >>>docker_image_name [/Users/kenanspruill/PycharmProjects/helix_service_kenan]: dev
+
+## had to make sure the docker_image_name was dev, was unsure what to use for project_slug
+
+8) make devsetup
+#worked
+
+9) make tests
+#worked
+
+10) make up
+#encountered an error here
+>>>Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:5000 -> 0.0.0.0:0: listen tcp 0.0.0.0:5000: bind: address already in use
+>>>make: *** [up] Error 1
+
+#SOLUTION:
+#you need to make sure your AirPlay receiver is off as it listens on port 5000
+
+"""
+Turning off the AirPlay Receiver (listens on port 5000) fixed the issue for me:
+
+Go to System Preference --> Sharing --> uncheck off the AirPlay Receiver
+
+For more details: https://utf9k.net/questions/macos-port-5000-monterey/
+"""
+
+###WHAT I TRIED FIRST:
+>>>Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+>>>[+] Running 0/1
+>>> ⠿ Container dev  Starting                                                                                                                                                                                                        0.1s
+
+#tried clearing all my containers
+# Stop container on current dir if there is a docker-compose.yml
+docker-compose down
+# Remove all containers
+docker rm -fv $(docker ps -aq)
+# List who's using the port
+sudo lsof -i -P -n | grep 5000
+
+#kill what is using  the port
+
+
+##check if AWS cli is installed
+11) aws --version
+
+
+
+#create repository
+#(should designate to do this in the app and not through CLI)
+https://us-west-1.console.aws.amazon.com/ecr/create-repository?region=us-west-1
+12)

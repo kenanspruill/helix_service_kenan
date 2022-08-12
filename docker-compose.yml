@@ -1,0 +1,21 @@
+version: '3'
+services:
+  dev:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: dev
+    environment:
+      DEBUG_METRICS: 0
+      FLASK_ENV: development
+    env_file: docker.env
+    ports:
+      - '5000:5000'
+    volumes:
+    - ./:/usr/src//Users/kenanspruill/PycharmProjects/helix_service_kenan/:cached
+    - ./tests:/usr/src//Users/kenanspruill/PycharmProjects/helix_service_kenan/tests/:cached
+    healthcheck:
+      test: curl --fail -s http://localhost:5000/health || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
